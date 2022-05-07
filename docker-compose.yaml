@@ -1,0 +1,25 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=pact
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=pact
+      - PGDATA=/var/lib/postgresql/data
+    tmpfs:
+      - /var/lib/postgresql/data
+
+  pact-broker:
+    image: pactfoundation/pact-broker
+    restart: always
+    environment:
+      - PACT_BROKER_DATABASE_USERNAME=pact
+      - PACT_BROKER_DATABASE_PASSWORD=password
+      - PACT_BROKER_DATABASE_NAME=pact
+      - PACT_BROKER_DATABASE_HOST=postgres
+    ports:
+      - "9292:9292"
+    depends_on:
+      - postgres

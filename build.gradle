@@ -1,0 +1,56 @@
+plugins {
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id "org.springframework.boot" version "2.6.7"
+    id "org.jetbrains.kotlin.jvm" version "1.6.21"
+    id "org.jetbrains.kotlin.plugin.spring" version "1.6.21"
+    id "au.com.dius.pact" version "4.1.0"
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 11
+targetCompatibility = 11
+
+subprojects {
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-spring'
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'au.com.dius.pact'
+
+    test {
+        useJUnitPlatform()
+    }
+
+    pact {
+        broker {
+            pactBrokerUrl = 'http://localhost:9292/'
+
+            // To use basic auth
+            pactBrokerUsername = pact_user
+            pactBrokerPassword = pact_password
+        }
+    }
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '11'
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '11'
+    }
+}

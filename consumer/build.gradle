@@ -1,0 +1,15 @@
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
+    testImplementation ("org.springframework.boot:spring-boot-starter-test"){
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation "au.com.dius.pact.consumer:junit5:4.1.7"
+}
+
+
+pact {
+    publish {
+        pactBrokerUrl = 'http://localhost:9292'
+    }
+}
